@@ -1,0 +1,76 @@
+--1--First, find all departments located at the location whose id is 1700:
+
+SELECT * FROM department_259 
+WHERE location_id='1700';
+
+--2--Find all employees who do not locate at the location 1700
+
+SELECT * FROM department_259
+WHERE location_id != '1700';
+
+--3--find the employees who have the highest salary 
+
+SELECT * FROM employee_259 
+WHERE salary > 10000;
+
+--4--ind all employees who salaries are greater than the average salary of all employees
+
+SELECT * FROM employee_259 
+WHERE SALARY > (SELECT AVG(SALARY) FROM employee_259);
+
+
+--5--find all departments which have at least one employee with the salary is greater than 10,000:
+
+SELECT DPT.DEPARTMENT_NAME,EP.SALARY
+FROM department_259 DPT
+JOIN employee_259 EP ON DPT.DEPARTMENT_ID = EP.DEPARTMENT_ID
+WHERE EP.SALARY > 10000;
+
+--6--find all employees whose salaries are greater than the lowest salary of every department:
+
+SELECT EMPLOYEE_ID,FIRST_NAME,LAST_NAME
+FROM employee_259 EP
+JOIN department_259 DPT ON DPT.DEPARTMENT_ID = EP.DEPARTMENT_ID
+WHERE EP.SALARY > (SELECT MIN(SALARY) FROM employee_259);
+
+--7--find the salaries of all employees, their average salary, and the difference between the salary of each employee and the average salary.
+
+SELECT SALARY,EMPLOYEE_ID,(MIN_SALARY + MAX_SALARY)/2 AVERAGE,(MIN_SALARY + MAX_SALARY)/2 - SALARY AS DIFF
+FROM employee_259 EP
+JOIN job_259 J ON J.JOB_ID = EP.JOB_ID;
+
+--8--List the Employees whose name starts with “Ni”
+
+SELECT FIRST_NAME,LAST_NAME 
+FROM employee_259 
+WHERE FIRST_NAME LIKE 'Ni%';
+
+--9--List the Employees whose name starts with S,N,T characters.
+
+SELECT FIRST_NAME,LAST_NAME FROM employee_259 
+WHERE FIRST_NAME LIKE 'S%' OR FIRST_NAME LIKE 'N%' OR FIRST_NAME LIKE 'T%';
+
+--10--What is query to display odd rows from the Employees table?
+
+SELECT * FROM employee_259 WHERE MOD(ROWNUM,2)=1;
+
+--11--Find Query to get information of Employee where Employee is not assigned to the department
+
+SELECT * FROM employee_259 EP 
+RIGHT JOIN department_259 DPT ON EP.DEPARTMENT_ID =DPT.DEPARTMENT_ID 
+WHERE EP.DEPARTMENT_ID =NULL;
+
+--12--How to fetch all the records from Employee whose joining year is  2018?
+
+SELECT * FROM employee_259 
+WHERE HIRE_DATE = '1987-06-17';
+
+--13--How Do you find all Employees with its managers?(Consider there is manager id also in Employee table)
+
+SELECT * FROM employee_259 
+WHERE MANAGER_ID = NULL;
+
+--14--Display 3 to 7 records from Employee table.
+
+SELECT * FROM employee_259 
+WHERE ROWNUM >= 3 AND ROWNUM <= 7;
